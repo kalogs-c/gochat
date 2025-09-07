@@ -22,3 +22,7 @@ func (s *service) CreateRoom(ctx context.Context, topic string) (domain.Room, er
 func (s *service) GetRoomByID(ctx context.Context, id int64) (domain.Room, error) {
 	return s.repository.GetRoomByID(ctx, id)
 }
+
+func (s *service) ListRooms(ctx context.Context) ([]domain.Room, error) {
+	return s.repository.ListRooms(ctx)
+}

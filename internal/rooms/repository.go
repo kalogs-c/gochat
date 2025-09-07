@@ -38,3 +38,17 @@ func (r *repository) GetRoomByID(ctx context.Context, id int64) (domain.Room, er
 		Topic: room.Topic,
 	}, nil
 }
+
+func (r *repository) ListRooms(ctx context.Context) ([]domain.Room, error) {
+	rooms, err := r.db.ListRooms(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	roomsList := make([]domain.Room, 0, len(rooms))
+	for _, room := range rooms {
+		roomsList = append(roomsList, domain.Room{ID: room.ID, Topic: room.Topic})
+	}
+
+	return roomsList, nil
+}

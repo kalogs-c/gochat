@@ -32,3 +32,30 @@ func (q *Queries) GetRoom(ctx context.Context, id int64) (Room, error) {
 	err := row.Scan(&i.ID, &i.Topic)
 	return i, err
 }
+
+const listRooms = `-- name: ListRooms :many
+SELECT id, topic FROM rooms
+`
+
+func (q *Queries) ListRooms(ctx context.Context) ([]Room, error) {
+	rows, err := q.db.QueryContext(ctx, listRooms)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Room{}
+	for rows.Next() {
+		var i Room
+		if err := rows.Scan(&i.ID, &i.Topic); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

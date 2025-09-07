@@ -77,3 +77,15 @@ func (h *HTTPAdapter) GetRoomByID(w http.ResponseWriter, r *http.Request) {
 		h.error(w, r, http.StatusInternalServerError, "failed to encode room", err)
 	}
 }
+
+func (h *HTTPAdapter) ListRooms(w http.ResponseWriter, r *http.Request) {
+	rooms, err := h.service.ListRooms(r.Context())
+	if err != nil {
+		h.error(w, r, http.StatusInternalServerError, "failed to list rooms", err)
+		return
+	}
+
+	if err := httpjson.Encode(w, r, http.StatusOK, rooms); err != nil {
+		h.error(w, r, http.StatusInternalServerError, "failed to encode rooms", err)
+	}
+}

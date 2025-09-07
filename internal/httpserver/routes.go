@@ -25,6 +25,7 @@ func setupRooms(
 	service := rooms.NewService(repo)
 	adapter := rooms.NewHTTPAdapter(service, logger)
 
-	mux.HandleFunc("POST /rooms", adapter.CreateRoom)
+	mux.HandleFunc("GET /rooms", adapter.ListRooms)
 	mux.HandleFunc("GET /rooms/{id}", adapter.GetRoomByID)
+	mux.HandleFunc("POST /rooms", adapter.CreateRoom)
 }

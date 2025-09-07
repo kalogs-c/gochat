@@ -10,9 +10,11 @@ type Room struct {
 type RoomService interface {
 	CreateRoom(ctx context.Context, topic string) (Room, error)
 	GetRoomByID(ctx context.Context, id int64) (Room, error)
+	ListRooms(ctx context.Context) ([]Room, error)
 }
 
 type RoomRepository interface {
 	CreateRoom(ctx context.Context, room Room) (Room, error)
 	GetRoomByID(ctx context.Context, id int64) (Room, error)
+	ListRooms(ctx context.Context) ([]Room, error)
 }
