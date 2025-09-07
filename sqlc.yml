@@ -1,0 +1,11 @@
+version: "2"
+sql:
+  - engine: "sqlite"
+    queries: "sql/queries"
+    schema: "sql/migrations"
+    gen:
+      go:
+        package: "sqlc"
+        out: "sql/sqlc_generated"
+        emit_empty_slices: true
+        omit_unused_structs: true

@@ -1,0 +1,22 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  add-migration:
+    cmds:
+      - ./bin/goose -dir sql/migrations create {{.CLI_ARGS}} sql 
+
+  migrate:
+    cmds:
+      - ./bin/goose -dir sql/migrations sqlite3 ./gochat.db {{.CLI_ARGS}}
+
+  sqlc:
+    cmds:
+      # -- up, down, reset ...
+      - ./bin/sqlc generate
+
+  serve:
+    cmds:
+      - go run ./cmd/http/main.go | jq
+    silent: true
